@@ -1,0 +1,57 @@
+---
+title: "HW1"
+author: "Yongzi Yu yy3103"
+output: html_document
+---
+
+I'm an R Markdown document! 
+
+# Problem 1
+
+```{r}
+library(tidyverse)
+
+q1=tibble(samp = rnorm(10),
+          samp > 10,
+          cvec = c("a","b","c","d","e","f","g","h","i","j"),
+          fvec = factor(c("red","green","yellow","red","red","green","red","red","red","red")))
+
+print(q1)
+```
+
+The mean are as following:
+```{r}
+mean(pull(q1,samp))
+mean(as.numeric(pull(q1,cvec)))
+mean(as.numeric(pull(q1,fvec)))
+```
+
+# Problem 2
+```{r}
+library(palmerpenguins)
+penguins
+```
+
+Important variables are:
+```{r}
+colnames(penguins)
+nrow(penguins)
+ncol(penguins)
+```
+
+The size of dataset is:
+```{r}
+nrow(penguins)
+ncol(penguins)
+```
+
+The mean flipper length is:
+```{r}
+mean(pull(penguins,flipper_length_mm),na.rm=TRUE)
+```
+```{r}
+library(ggplot2)
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm),color=species) + geom_point()
+
+ggsave("penguins.pdf")
+```

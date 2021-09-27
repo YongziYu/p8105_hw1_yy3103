@@ -27,6 +27,7 @@ mean(as.numeric(pull(q1,fvec)))
 ```
 
 # Problem 2
+(a)
 ```{r}
 library(palmerpenguins)
 penguins

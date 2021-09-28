@@ -12,17 +12,21 @@ I'm an R Markdown document!
 library(tidyverse)
 
 q1=tibble(samp = rnorm(10),
-          samp > 10,
+          log=(samp > 0),
           cvec = c("a","b","c","d","e","f","g","h","i","j"),
           fvec = factor(c("red","green","yellow","red","red","green","red","red","red","red")))
 
 print(q1)
 ```
 
-The mean are as following:
+Mean of random sample of size 10,logical vector when use mean function. But mean of factor vector works after using as.numeric function. Even when apply as.numeric function, mean of character vector do not work because some of characters cannot be converted to the numeric cases. 
 ```{r}
 mean(pull(q1,samp))
-mean(as.numeric(pull(q1,cvec)))
+mean(pull(q1,log))
+mean(pull(q1,cvec))
+mean(pull(q1,fvec))
+
+mean(as.numeric(pull(q1,cvec)),na.rm=TRUE)
 mean(as.numeric(pull(q1,fvec)))
 ```
 
@@ -31,7 +35,7 @@ mean(as.numeric(pull(q1,fvec)))
 library(palmerpenguins)
 penguins
 ```
-There are 8 variables:"species","island","bill_length_mm","bill_depth_mm"   , "flipper_length_mm","body_mass_g","sex", "year". There are 344 rows and 8 columns. The mean flipper length is 200.92.
+There are 8 variables:"species","island","bill_length_mm","bill_depth_mm", "flipper_length_mm","body_mass_g","sex", "year". There are 344 rows and 8 columns. The mean flipper length is 200.92.
 ```{r}
 colnames(penguins)
 nrow(penguins)

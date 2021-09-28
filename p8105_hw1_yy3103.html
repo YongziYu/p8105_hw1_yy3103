@@ -183,30 +183,41 @@ pre code {
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>q1=tibble(samp = rnorm(10),
-          samp &gt; 10,
+          log=(samp &gt; 0),
           cvec = c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;),
           fvec = factor(c(&quot;red&quot;,&quot;green&quot;,&quot;yellow&quot;,&quot;red&quot;,&quot;red&quot;,&quot;green&quot;,&quot;red&quot;,&quot;red&quot;,&quot;red&quot;,&quot;red&quot;)))
 
 print(q1)</code></pre>
 <pre><code>## # A tibble: 10 x 4
-##      samp `samp &gt; 10` cvec  fvec  
-##     &lt;dbl&gt; &lt;lgl&gt;       &lt;chr&gt; &lt;fct&gt; 
-##  1  0.942 FALSE       a     red   
-##  2  0.858 FALSE       b     green 
-##  3  1.00  FALSE       c     yellow
-##  4 -0.776 FALSE       d     red   
-##  5 -0.862 FALSE       e     red   
-##  6  1.38  FALSE       f     green 
-##  7 -0.225 FALSE       g     red   
-##  8  0.288 FALSE       h     red   
-##  9  1.82  FALSE       i     red   
-## 10 -0.813 FALSE       j     red</code></pre>
-<p>The mean are as following:</p>
+##       samp log   cvec  fvec  
+##      &lt;dbl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;fct&gt; 
+##  1 -0.974  FALSE a     red   
+##  2  0.471  TRUE  b     green 
+##  3 -0.0399 FALSE c     yellow
+##  4 -0.0282 FALSE d     red   
+##  5 -0.977  FALSE e     red   
+##  6 -1.39   FALSE f     green 
+##  7  0.324  TRUE  g     red   
+##  8 -0.383  FALSE h     red   
+##  9 -0.761  FALSE i     red   
+## 10 -2.17   FALSE j     red</code></pre>
+<p>Mean of random sample of size 10,logical vector when use mean function. But mean of factor vector works after using as.numeric function. Even when apply as.numeric function, mean of character vector do not work because some of characters cannot be converted to the numeric cases.</p>
 <pre class="r"><code>mean(pull(q1,samp))</code></pre>
-<pre><code>## [1] 0.3616909</code></pre>
-<pre class="r"><code>mean(as.numeric(pull(q1,cvec)))</code></pre>
-<pre><code>## Warning in mean(as.numeric(pull(q1, cvec))): NAs introduced by coercion</code></pre>
+<pre><code>## [1] -0.5929811</code></pre>
+<pre class="r"><code>mean(pull(q1,log))</code></pre>
+<pre><code>## [1] 0.2</code></pre>
+<pre class="r"><code>mean(pull(q1,cvec))</code></pre>
+<pre><code>## Warning in mean.default(pull(q1, cvec)): argument is not numeric or logical:
+## returning NA</code></pre>
 <pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(pull(q1,fvec))</code></pre>
+<pre><code>## Warning in mean.default(pull(q1, fvec)): argument is not numeric or logical:
+## returning NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(as.numeric(pull(q1,cvec)),na.rm=TRUE)</code></pre>
+<pre><code>## Warning in mean(as.numeric(pull(q1, cvec)), na.rm = TRUE): NAs introduced by
+## coercion</code></pre>
+<pre><code>## [1] NaN</code></pre>
 <pre class="r"><code>mean(as.numeric(pull(q1,fvec)))</code></pre>
 <pre><code>## [1] 1.9</code></pre>
 </div>
@@ -228,7 +239,7 @@ penguins</code></pre>
 ##  9 Adelie  Torgersen           34.1          18.1               193        3475
 ## 10 Adelie  Torgersen           42            20.2               190        4250
 ## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
-<p>There are 8 variables:“species”,“island”,“bill_length_mm”,“bill_depth_mm” , “flipper_length_mm”,“body_mass_g”,“sex”, “year”. There are 344 rows and 8 columns. The mean flipper length is 200.92.</p>
+<p>There are 8 variables:“species”,“island”,“bill_length_mm”,“bill_depth_mm”, “flipper_length_mm”,“body_mass_g”,“sex”, “year”. There are 344 rows and 8 columns. The mean flipper length is 200.92.</p>
 <pre class="r"><code>colnames(penguins)</code></pre>
 <pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
 ## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      

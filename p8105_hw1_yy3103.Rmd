@@ -27,32 +27,18 @@ mean(as.numeric(pull(q1,fvec)))
 ```
 
 # Problem 2
-(a)
 ```{r}
 library(palmerpenguins)
 penguins
 ```
-
-Important variables are:
+There are 8 variables:"species","island","bill_length_mm","bill_depth_mm"   , "flipper_length_mm","body_mass_g","sex", "year". There are 344 rows and 8 columns. The mean flipper length is 200.92.
 ```{r}
 colnames(penguins)
 nrow(penguins)
 ncol(penguins)
-```
-
-The size of dataset is:
-```{r}
-nrow(penguins)
-ncol(penguins)
-```
-
-The mean flipper length is:
-```{r}
 mean(pull(penguins,flipper_length_mm),na.rm=TRUE)
-```
-```{r}
 library(ggplot2)
-ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm),color=species) + geom_point()
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm,color=species)) + geom_point()
 
 ggsave("penguins.pdf")
 ```
